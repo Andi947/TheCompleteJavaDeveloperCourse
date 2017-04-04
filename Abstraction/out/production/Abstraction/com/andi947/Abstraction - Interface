@@ -1,0 +1,4 @@
+// specified there must be a write method that returns an arraylist & a read method provided with arraylist of values to be restored
+// no details on how the class should populate
+// not complete abstraction when stating that the method has to use or return an arrayList
+// thus, by using only List, we leave how the methods are used purely up to the class
