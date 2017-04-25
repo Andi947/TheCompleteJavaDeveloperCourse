@@ -51,7 +51,14 @@ public class Team<T extends Sport> implements Comparable<Team<T>>{
     @Override
     public int compareTo(Team<T> team) {
         if(team != null){
-            return 1;
+
+            if(  this.ranking() > team.ranking())
+                return -1; // higher number means better ranking, so -1 indicates it should move BEFORE the team passed in
+            else
+                if( this.ranking() < team.ranking() )
+                    return 1; // +1 indicates this object should move AFTER the team being passed in
+                else
+                    return 0; // 0 means they are the same in ranking
         }
         return 0;
     }

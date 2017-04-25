@@ -1,0 +1,11 @@
+package com.example.game;
+
+import java.util.List;
+
+/**
+ * Created by Andrea on 2017/03/07.
+ */
+public interface ISaveable {
+    List<String> write();
+    void read(List<String> savedValues);
+}
