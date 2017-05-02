@@ -103,6 +103,9 @@ public class Main {
         for(HeavenlyBody planet : planets){
             System.out.println(planet.getName() + ": " + planet.getOrbitalPeriod());
         } // thus, need to override equals()
+        // even after overriding equals() there are still duplicates
+        // thus, need to implement hashCode()
+        // now only one Pluto in the list - and the original was added not the duplicate
 
     }
 }
