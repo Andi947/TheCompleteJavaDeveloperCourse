@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * Created by Andrea on 2017/05/01.
  */
-public abstract class HeavenlyBody {
+public /*abstract*/ class HeavenlyBody {
     private final double orbitalPeriod;
     private final Set<HeavenlyBody> satellites;
     // don't know how to support bodyType in HeavenlyBody: Checked solution to see...
