@@ -5,6 +5,6 @@ package SetChallenge;
  */
 public class Star extends HeavenlyBody {
     public Star(String name, double orbitalPeriod, BodyTypes bodyType) {
-        super(name, orbitalPeriod, bodyType);
+        super(name, orbitalPeriod, BodyTypes.STAR);
     }
 }
