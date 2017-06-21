@@ -1,9 +1,6 @@
 package com.andi947;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -16,9 +13,9 @@ public class Locations implements Map<Integer, Location> {  // remapping code - 
         try(FileWriter locFIle = new FileWriter("locations.txt");// try with resource always ensures that the file is closed after writing
             FileWriter dirFile = new FileWriter("directions.txt")){  // extra object within try for the same exception
             for(Location location : locations.values()){
-                locFIle.write(location.getLocationID() + ", " + location.getDescription() + "\n");
+                locFIle.write(location.getLocationID() + "," + location.getDescription() + "\n");
                 for (String direction : location.getExits().keySet()){  // location data is first & for loop for exits for that location & save them to file
-                    dirFile.write(location.getLocationID() + ", " + direction + ", " + location.getExits().get(direction) + "\n");
+                    dirFile.write(location.getLocationID() + "," + direction + ", " + location.getExits().get(direction) + "\n");
                 }
             }
         }
@@ -38,12 +35,11 @@ public class Locations implements Map<Integer, Location> {  // remapping code - 
 //        }
     }
 
-    static {  // hard coding data ... so better to read from a file (thus write to a file)
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(new FileReader("locations.txt")); // reading from FileReader(); don't need to close, scanner closes it itself
-            scanner.useDelimiter(", ");
-            while (scanner.hasNextLine()){
+    static {  // hard coding data ... so better to read from a file (thus write to a file) // have to have a catch for the try with resources
+
+        try(Scanner scanner = new Scanner(new FileReader("locations_big.txt"))){
+            scanner.useDelimiter(",");
+            while (scanner.hasNextLine()) {
                 int loc = scanner.nextInt();
                 scanner.skip(scanner.delimiter());
                 String description = scanner.nextLine();
@@ -51,42 +47,75 @@ public class Locations implements Map<Integer, Location> {  // remapping code - 
                 Map<String, Integer> tempExit = new HashMap<>();
                 locations.put(loc, new Location(loc, description, tempExit));
             }
+
         } catch(IOException e){
             e.printStackTrace();
-        } finally {
-            if(scanner != null){
-                scanner.close();
-            }
         }
+
+        try(BufferedReader dirFile = new BufferedReader(new FileReader("directions_big.txt"))){ // removed scanner
+            String input;
+            while ((input = dirFile.readLine()) != null) {
+                String[] data = input.split(",");
+                int loc2 = Integer.parseInt(data[0]);
+                String direction = data[1];
+                int destination = Integer.parseInt(data[2]);
+                System.out.println(loc2 + ": " + direction + ": " + destination);
+                Location location = locations.get(loc2);
+                location.addExit(direction, destination);
+            }
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
+
+//        Scanner scanner = null;
+//        try {
+//            scanner = new Scanner(new FileReader("locations_big.txt")); // reading from FileReader(); don't need to close, scanner closes it itself
+//            scanner.useDelimiter(",");
+//            while (scanner.hasNextLine()){
+//                int loc = scanner.nextInt();
+//                scanner.skip(scanner.delimiter());
+//                String description = scanner.nextLine();
+//                System.out.println("Imported loc: " + loc + ": " + description);
+//                Map<String, Integer> tempExit = new HashMap<>();
+//                locations.put(loc, new Location(loc, description, tempExit));
+//            }
+//        } catch(IOException e){
+//            e.printStackTrace();
+//        } finally {
+//            if(scanner != null){
+//                scanner.close();
+//            }
+//        }
 
         // read the exits
 
-        try {
-            scanner = new Scanner(new BufferedReader(new FileReader("directions.txt")));
-            scanner.useDelimiter(", ");
-            while (scanner.hasNextLine()) {
-//                int loc = scanner.nextInt();
-//                scanner.skip(scanner.delimiter());
-//                String direction = scanner.next();
-//                scanner.skip(scanner.delimiter());
-//                String dest = scanner.nextLine();
-//                int destination = Integer.parseInt(dest);
-                String input = scanner.nextLine();
-                String[] data = input.split(", ");
-                int loc = Integer.parseInt(data[0]);
-                String direction = data[1];
-                int destination = Integer.parseInt(data[2]);
-                System.out.println(loc + ": " + direction + ": " + destination);
-                Location location = locations.get(loc);
-                location.addExit(direction, destination);
-            }
-        }catch(IOException e){
-            e.printStackTrace();
-        } finally {
-            if(scanner != null){
-                scanner.close();  // by closing the scanner we're closing the reader
-            }
-        }
+//        try {
+//            scanner = new Scanner(new BufferedReader(new FileReader("directions_big.txt"))); // used to maintain legacy code
+//            scanner.useDelimiter(",");
+//            while (scanner.hasNextLine()) {
+////                int loc = scanner.nextInt();
+////                scanner.skip(scanner.delimiter());
+////                String direction = scanner.next();
+////                scanner.skip(scanner.delimiter());
+////                String dest = scanner.nextLine();
+////                int destination = Integer.parseInt(dest);
+//                String input = scanner.nextLine();
+//                String[] data = input.split(",");
+//                int loc = Integer.parseInt(data[0]);
+//                String direction = data[1];
+//                int destination = Integer.parseInt(data[2]);
+//                System.out.println(loc + ": " + direction + ": " + destination);
+//                Location location = locations.get(loc);
+//                location.addExit(direction, destination);
+//            }
+//        }catch(IOException e){
+//            e.printStackTrace();
+//        } finally {
+//            if(scanner != null){
+//                scanner.close();  // by closing the scanner we're closing the reader
+//            }
+//        }
 //        Map<String, Integer> tempExit = new HashMap<String,Integer>();
 //
 //                locations.put(0, new Location(0, "You are sitting in front of a computer learning Java", null));
