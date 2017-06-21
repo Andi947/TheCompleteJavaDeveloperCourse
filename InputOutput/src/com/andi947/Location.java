@@ -1,6 +1,7 @@
 package com.andi947;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 // Challenge:
@@ -21,9 +22,9 @@ public class Location {    // making the class final will prevent it from being 
         this.locationID = locationID;
         this.description = description;
         if(exits != null) {   // test if null has been entered and if so, create empty map
-            this.exits = new HashMap<String, Integer>(exits);  // Constructor will crash with NullPointerException; if null is passed instead of the map
+            this.exits = new LinkedHashMap<String, Integer>(exits);  // Constructor will crash with NullPointerException; if null is passed instead of the map
         } else {
-            this.exits = new HashMap<String, Integer>();
+            this.exits = new LinkedHashMap<String, Integer>();
         }
         this.exits.put("Q", 0);  // placing the Q = 0 for each location
     }
@@ -41,7 +42,7 @@ public class Location {    // making the class final will prevent it from being 
     }
 
     public Map<String, Integer> getExits() {
-        return new HashMap<String, Integer>(exits);
+        return new LinkedHashMap<String, Integer>(exits);
     }
 
 
