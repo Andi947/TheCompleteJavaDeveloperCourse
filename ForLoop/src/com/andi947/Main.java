@@ -35,7 +35,7 @@ public class Main {
             if (isPrime(i)) {
                 countPrime++;
                 System.out.println(i + " is a prime number");
-                if (countPrime == 3) {
+                if (countPrime == 10) {
                     System.out.println("Exiting for-loop");
                     break;
                 }
@@ -50,7 +50,8 @@ public class Main {
             return false;
         }
 
-        for(int i=2; i <= n/2; i++) {   // replace n/2 with (long) Math.sqrt(n) = optimized code (reduces the amount of times the code loops)
+        for(int i=2; i <= (long) Math.sqrt(n); i++) {   // replace n/2 with (long) Math.sqrt(n) = optimized code (reduces the amount of times the code loops)
+            System.out.println("Looping " + i);
             if(n % i == 0) {
                 return false;
             }

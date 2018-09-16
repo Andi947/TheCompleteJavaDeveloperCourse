@@ -1,5 +1,6 @@
 package com.andi947;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -13,10 +14,12 @@ import java.util.Map;
 /**
  * Created by Andrea on 2017/04/27.
  */
-public class Location {    // making the class final will prevent it from being subclassed = immutable
+public class Location implements Serializable{    // making the class final will prevent it from being subclassed = immutable
     private final int locationID;
     private final String description;
     private final Map<String, Integer> exits;
+
+    private long serialVersionUID = 1L;
 
     public Location(int locationID, String description, Map<String, Integer> exits) {  // test constructors arguments and don't initialise new map if null is passed
         this.locationID = locationID;

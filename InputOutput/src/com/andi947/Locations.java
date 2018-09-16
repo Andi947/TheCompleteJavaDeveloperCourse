@@ -10,49 +10,35 @@ public class Locations implements Map<Integer, Location> {  // remapping code - 
     private static Map<Integer, Location> locations = new LinkedHashMap<>();  // only one instance of static data that is shared
 
     public static void main(String[] args) throws IOException{  // create a write to file (write data to a stream); specify what exception could happen
-        try(BufferedWriter locFile = new BufferedWriter(new FileWriter("locations.txt"));// try with resource always ensures that the file is closed after writing
-            BufferedWriter dirFile = new BufferedWriter( new FileWriter("directions.txt"))){  // extra object within try for the same exception
-            for(Location location : locations.values()){
-                locFile.write(location.getLocationID() + "," + location.getDescription() + "\n");
-                for (String direction : location.getExits().keySet()){  // location data is first & for loop for exits for that location & save them to file
-                    if(! direction.equalsIgnoreCase("Q")) {
-                        dirFile.write(location.getLocationID() + "," + direction + "," + location.getExits().get(direction) + "\n");
-                    }
-                }
+
+        try(ObjectOutputStream locFile = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))){ //simplified compared to above
+            for(Location location: locations.values()){
+                locFile.writeObject(location);
             }
         }
     }
 
     static {  // hard coding data ... so better to read from a file (thus write to a file) // have to have a catch for the try with resources
 
-        try(Scanner scanner = new Scanner(new BufferedReader(new FileReader("locations_big.txt")))){
-            scanner.useDelimiter(",");
-                while (scanner.hasNextLine()) {
-                    int loc = scanner.nextInt();
-                    scanner.skip(scanner.delimiter());
-                    String description = scanner.nextLine();
-                    System.out.println("Imported loc: " + loc + ": " + description);
-                    Map<String, Integer> tempExit = new HashMap<>();
-                    locations.put(loc, new Location(loc, description, tempExit));
+        try (ObjectInputStream locFile = new ObjectInputStream(new BufferedInputStream(new FileInputStream("locations.dat")))) {
+            boolean eof = false;
+            while (!eof) {
+                try {
+                    Location location = (Location) locFile.readObject();
+                    System.out.println("Read location " + location.getLocationID() + " : " + location.getDescription());
+                    System.out.println("Found " + location.getExits().size() + " exits");
+
+                    locations.put(location.getLocationID(), location);
+                } catch (EOFException e) {
+                    eof = true;
                 }
-
-            } catch(IOException e){
-                e.printStackTrace();
             }
-
-        try(BufferedReader dirFile = new BufferedReader(new FileReader("directions_big.txt"))){ // removed scanner
-            String input;
-            while ((input = dirFile.readLine()) != null) {
-                String[] data = input.split(",");
-                int loc = Integer.parseInt(data[0]);
-                String direction = data[1];
-                int destination = Integer.parseInt(data[2]);
-                System.out.println(loc + ": " + direction + ": " + destination);
-                Location location = locations.get(loc);
-                location.addExit(direction, destination);
-            }
-        } catch(IOException e){
-            e.printStackTrace();
+        } catch(InvalidClassException e){
+            System.out.println("InvalidClassException " + e.getMessage());
+        } catch (IOException io) {
+            System.out.println("IOException " + io.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException " + e.getMessage());
         }
     }
 

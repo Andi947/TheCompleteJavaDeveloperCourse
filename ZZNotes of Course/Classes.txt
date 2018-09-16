@@ -1,0 +1,18 @@
+package com.andi947;
+
+public class Main {
+
+    public static void main(String[] args) {
+	    Car porsche;                    //define an object of car called Porsche
+	    Car prosche = new Car();        //define obj and initialise obj:
+        // from datatype class Car we're defining our variable/ obj
+        // porsche and initialise by creating a new instance of
+        // obj porsche
+        // i.e  we created a new datatype called porsche & it's of type car
+        // vs. we created a datatype called name & it's of type String.
+        // we would initialise name with "NAME"; as there are no other
+        // properties
+        
+        String porsche = new String(); // this is possible but is now redundant
+        
+    }
