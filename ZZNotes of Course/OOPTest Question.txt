@@ -1,0 +1,37 @@
+Have learned so far: 
+Datatypes, variables, operators
+Expressions, Statements (incl If), Code blocks, Methods, Method overloading
+Control Flow Statements: Switch, For, While-Do
+Classes
+Constructors
+Inheritance
+Composition
+Encapsulation
+Polymorphism
+
+
+The purpose of the application is to help a fictitious company called Bills Burgers to manage their process of selling hamburgers.
+Our application will help Bill to select types of burgers, some of the additional items (additions) to be added to the burgers and pricing.
+We want to create a base hamburger, but also two other types of hamburgers that are popular ones in Bills store.
+    
+1) The basic hamburger should have the following items:
+    bread roll type; meat; and up to 4 additions (things like lettuce,tomato, carrot, etc (pickles, sauce, onions, cheese)... that the customer can select to be added to the burger.
+Each one of those items gets charged an additional price so you need some way to track how many items got added and to calculate the price(for the base burger and all its additions).
+
+This burger has a base price and the additions are separately priced.
+Create a Hamburger class to deal with all the above.
+The constructor should only include the roll type, meat and price.
+Need to create methods to add the additional items
+
+Also create two extra varieties of Hamburgers (classes) to cater for:
+2)
+    a) Healthy burger (on a brown rye bread roll), plus can have 2 additions and Healthy can have a total of 6 additions  (4 from base class & 2 from itself).
+		hint: you probably want to process 2 additions in this new class, not the base class, since the 2 is only appropriate for this class
+3)
+    b) Deluxe Hamburger - comes with chips and drinks as additions, but no extra 	additions are allowed.
+		hint: You have to find a way to automatically add these new items at the time the deluxe burger object is created, and then prevent other additional items from being made. Other additions from base cannot be made. (Override method)
+		
+All 3 classes should have a method that can be called anytime to show the base 	price of the hamburger plus all additionals, each showing the addition name, and addition price, and a grand total for the burger
+	
+For the two additional classes this may require you to be looking at the base class for pricing and then adding totals onto that.
+	
